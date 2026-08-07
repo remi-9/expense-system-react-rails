@@ -23,6 +23,51 @@ RSpec.describe "Api::Expenses", type: :request do
       expect(json.first["id"]).to eq(expense2.id)
       expect(json.last["id"]).to eq(expense1.id)
     end
+
+    context "when filtering by year and month" do
+      let!(:july_expense) do
+        Expense.create!(
+          description: "July grocery",
+          amount: 25.00,
+          category: food_category,
+          date: Date.new(2026, 7, 15)
+        )
+      end
+
+      let!(:august_dated_expense) do
+        Expense.create!(
+          description: "August dinner",
+          amount: 40.00,
+          category: food_category,
+          date: Date.new(2026, 8, 1)
+        )
+      end
+
+      it "filters by expense date, not created_at" do
+        # Simulate a July-dated expense that was created in August
+        july_expense.update_columns(created_at: Time.zone.local(2026, 8, 5, 12, 0, 0))
+
+        get "/api/expenses", params: { year: 2026, month: 7 }
+
+        expect(response).to have_http_status(:success)
+        json = JSON.parse(response.body)
+        ids = json.map { |expense| expense["id"] }
+
+        expect(ids).to include(july_expense.id)
+        expect(ids).not_to include(august_dated_expense.id)
+      end
+
+      it "includes expenses whose date falls in the selected month" do
+        get "/api/expenses", params: { year: 2026, month: 8 }
+
+        expect(response).to have_http_status(:success)
+        json = JSON.parse(response.body)
+        ids = json.map { |expense| expense["id"] }
+
+        expect(ids).to include(august_dated_expense.id)
+        expect(ids).not_to include(july_expense.id)
+      end
+    end
   end
 
   describe "POST /api/expenses" do
