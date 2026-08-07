@@ -4,6 +4,11 @@
 
 import React, { useState } from "react";
 import { CategoryFormData } from "../types";
+import {
+  CATEGORY_EMOJI_PRESETS,
+  DEFAULT_CATEGORY_EMOJI,
+} from "../constants/categoryEmojis";
+import { COLORS } from "../constants/colors";
 import { TextField, Button } from "../vibes";
 
 interface CategoryFormProps {
@@ -13,6 +18,7 @@ interface CategoryFormProps {
 
 export function CategoryForm({ onSubmit, onCancel }: CategoryFormProps) {
   const [name, setName] = useState("");
+  const [emoji, setEmoji] = useState<string>(DEFAULT_CATEGORY_EMOJI);
   const [error, setError] = useState<string | undefined>(undefined);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -28,6 +34,28 @@ export function CategoryForm({ onSubmit, onCancel }: CategoryFormProps) {
     marginTop: "0.5rem",
   };
 
+  const emojiLabelStyle: React.CSSProperties = {
+    fontSize: "0.875rem",
+    fontWeight: 600,
+    color: COLORS.text.primary,
+  };
+
+  const emojiGridStyle: React.CSSProperties = {
+    display: "grid",
+    gridTemplateColumns: "repeat(5, minmax(0, 1fr))",
+    gap: "0.5rem",
+  };
+
+  const emojiButtonStyle = (selected: boolean): React.CSSProperties => ({
+    fontSize: "1.25rem",
+    lineHeight: 1,
+    padding: "0.5rem",
+    borderRadius: "0.375rem",
+    border: `1px solid ${selected ? COLORS.primary.p05 : COLORS.border}`,
+    backgroundColor: selected ? COLORS.primary.p01 : COLORS.background.main,
+    cursor: "pointer",
+  });
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -40,8 +68,9 @@ export function CategoryForm({ onSubmit, onCancel }: CategoryFormProps) {
     setIsSubmitting(true);
     setError(undefined);
     try {
-      await onSubmit({ name: trimmedName });
+      await onSubmit({ name: trimmedName, emoji });
       setName("");
+      setEmoji(DEFAULT_CATEGORY_EMOJI);
     } catch (err) {
       const message =
         err instanceof Error ? err.message : "Failed to create category";
@@ -67,6 +96,33 @@ export function CategoryForm({ onSubmit, onCancel }: CategoryFormProps) {
         fullWidth
         required
       />
+
+      <div>
+        <div style={emojiLabelStyle}>Emoji</div>
+        <div
+          style={emojiGridStyle}
+          role="radiogroup"
+          aria-label="Category emoji"
+        >
+          {CATEGORY_EMOJI_PRESETS.map((preset) => {
+            const selected = emoji === preset;
+            return (
+              <button
+                key={preset}
+                type="button"
+                role="radio"
+                aria-checked={selected}
+                aria-label={`Select emoji ${preset}`}
+                style={emojiButtonStyle(selected)}
+                onClick={() => setEmoji(preset)}
+                disabled={isSubmitting}
+              >
+                {preset}
+              </button>
+            );
+          })}
+        </div>
+      </div>
 
       <div style={buttonGroupStyle}>
         <Button
