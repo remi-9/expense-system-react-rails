@@ -5,23 +5,68 @@ RSpec.describe "Api::Expenses", type: :request do
   let!(:transport_category) { Category.create!(name: "Transport") }
 
   describe "GET /api/expenses" do
-  let!(:expense1) { Expense.create!(description: "Lunch", amount: 100.00, category: food_category, date: Date.today) }
-  let!(:expense2) { Expense.create!(description: "Taxi", amount: 50.00, category: transport_category, date: Date.today) }
+    let!(:older_date_expense) do
+      Expense.create!(
+        description: "Lunch",
+        amount: 100.00,
+        category: food_category,
+        date: Date.today - 2.days
+      )
+    end
+    let!(:newer_date_expense) do
+      Expense.create!(
+        description: "Taxi",
+        amount: 50.00,
+        category: transport_category,
+        date: Date.today
+      )
+    end
+    let!(:same_day_earlier) do
+      Expense.create!(
+        description: "Coffee",
+        amount: 5.00,
+        category: food_category,
+        date: Date.today - 1.day
+      )
+    end
+    let!(:same_day_later) do
+      Expense.create!(
+        description: "Dinner",
+        amount: 40.00,
+        category: food_category,
+        date: Date.today - 1.day
+      )
+    end
 
     it "returns all expenses with category information" do
       get "/api/expenses"
 
       expect(response).to have_http_status(:success)
       json = JSON.parse(response.body)
-      expect(json.length).to eq(2)
+      expect(json.length).to eq(4)
     end
 
-    it "returns expenses in descending order by created_at" do
+    it "returns expenses in descending order by date, then id" do
+      # Create an older-dated expense after newer ones so created_at order would differ
+      backdated_but_created_last = Expense.create!(
+        description: "Backdated",
+        amount: 20.00,
+        category: food_category,
+        date: Date.today - 3.days
+      )
+
       get "/api/expenses"
 
       json = JSON.parse(response.body)
-      expect(json.first["id"]).to eq(expense2.id)
-      expect(json.last["id"]).to eq(expense1.id)
+      ids = json.map { |expense| expense["id"] }
+
+      expect(ids).to eq([
+        newer_date_expense.id,
+        same_day_later.id,
+        same_day_earlier.id,
+        older_date_expense.id,
+        backdated_but_created_last.id
+      ])
     end
   end
 
