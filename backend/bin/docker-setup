@@ -1,0 +1,11 @@
+#!/bin/bash
+set -e
+
+bundle exec rails db:migrate
+
+if bundle exec rails runner 'exit(Expense.exists? ? 0 : 1)'; then
+  echo "Seed skipped (data already present)"
+else
+  echo "Seeding database (this can take several minutes)..."
+  bundle exec rails db:seed
+fi

@@ -1,0 +1,3 @@
+# Ensure shell scripts keep LF endings on Windows (required for Docker/Linux)
+backend/bin/* text eol=lf
+*.sh text eol=lf
