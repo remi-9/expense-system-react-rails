@@ -76,16 +76,7 @@ export async function createCategory(data: CategoryFormData): Promise<Category> 
  * Create a new expense
  */
 export async function createExpense(data: ExpenseFormData): Promise<Expense> {
-  // Convert category name to category_id
-  const categories = await fetchCategories();
-  const category = categories.find((c) => c.name === data.category);
-
-  const expenseData = {
-    description: data.description,
-    amount: data.amount,
-    category_id: category?.id,
-    date: data.date,
-  };
+  const expenseData = await toExpenseApiPayload(data);
 
   const response = await fetch(`${API_BASE_URL}/expenses`, {
     method: "POST",
@@ -109,12 +100,14 @@ export async function updateExpense(
   id: number,
   data: Partial<ExpenseFormData>,
 ): Promise<Expense> {
+  const expenseData = await toExpenseApiPayload(data);
+
   const response = await fetch(`${API_BASE_URL}/expenses/${id}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ expense: data }),
+    body: JSON.stringify({ expense: expenseData }),
   });
 
   if (!response.ok) {
@@ -135,4 +128,40 @@ export async function deleteExpense(id: number): Promise<void> {
   if (!response.ok) {
     throw new Error("Failed to delete expense");
   }
+}
+
+/**
+ * Map form fields to API expense params (category name → category_id).
+ */
+async function toExpenseApiPayload(
+  data: Partial<ExpenseFormData>,
+): Promise<{
+  description?: string;
+  amount?: string;
+  category_id?: number;
+  date?: string;
+}> {
+  const payload: {
+    description?: string;
+    amount?: string;
+    category_id?: number;
+    date?: string;
+  } = {};
+
+  if (data.description !== undefined) {
+    payload.description = data.description;
+  }
+  if (data.amount !== undefined) {
+    payload.amount = data.amount;
+  }
+  if (data.date !== undefined) {
+    payload.date = data.date;
+  }
+  if (data.category !== undefined) {
+    const categories = await fetchCategories();
+    const category = categories.find((c) => c.name === data.category);
+    payload.category_id = category?.id;
+  }
+
+  return payload;
 }
