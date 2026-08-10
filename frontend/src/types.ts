@@ -5,10 +5,12 @@
 export interface Category {
   id: number;
   name: string;
+  emoji: string;
 }
 
 export interface CategoryFormData {
   name: string;
+  emoji: string;
 }
 
 export interface Expense {

@@ -42,6 +42,17 @@ RSpec.describe "Api::Categories", type: :request do
         json = JSON.parse(response.body)
         expect(json["name"]).to eq("Utilities")
         expect(json["id"]).to be_present
+        expect(json["emoji"]).to eq(Category::DEFAULT_EMOJI)
+      end
+
+      it "persists a selected emoji" do
+        post "/api/categories",
+             params: { category: { name: "Utilities", emoji: "💡" } },
+             as: :json
+
+        expect(response).to have_http_status(:created)
+        json = JSON.parse(response.body)
+        expect(json["emoji"]).to eq("💡")
       end
 
       it "strips whitespace from the category name" do
@@ -67,6 +78,18 @@ RSpec.describe "Api::Categories", type: :request do
       it "returns errors when name is missing" do
         expect {
           post "/api/categories", params: { category: { name: nil } }, as: :json
+        }.not_to change(Category, :count)
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        json = JSON.parse(response.body)
+        expect(json["errors"]).to be_present
+      end
+
+      it "returns errors when emoji is not in the preset list" do
+        expect {
+          post "/api/categories",
+               params: { category: { name: "Utilities", emoji: "🚀" } },
+               as: :json
         }.not_to change(Category, :count)
 
         expect(response).to have_http_status(:unprocessable_entity)
