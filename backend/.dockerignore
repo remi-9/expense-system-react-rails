@@ -37,6 +37,9 @@
 # Ignore development files
 /.devcontainer
 
+# Host gem installs (Linux image installs its own copy)
+/vendor
+
 # Ignore Docker-related files
 /.dockerignore
 /Dockerfile*
