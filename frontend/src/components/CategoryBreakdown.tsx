@@ -25,6 +25,10 @@ const CategoryBreakdown: React.FC<CategoryBreakdownProps> = ({
     return `$${amount.toFixed(2)}`;
   };
 
+  const formatTxnCount = (count: number) => {
+    return `${count} txn${count !== 1 ? "s" : ""}`;
+  };
+
   const containerStyle: React.CSSProperties = {
     background: "white",
     borderRadius: "12px",
@@ -33,11 +37,11 @@ const CategoryBreakdown: React.FC<CategoryBreakdownProps> = ({
   };
 
   const totalStyle: React.CSSProperties = {
-    padding: "16px 24px",
+    padding: "12px 16px",
     display: "flex",
     alignItems: "center",
     gap: "12px",
-    borderBottom: `1px solid ${COLORS.secondary.s04}`,
+    borderBottom: isCollapsed ? "none" : `1px solid ${COLORS.secondary.s04}`,
     background: COLORS.secondary.s01,
     cursor: "pointer",
   };
@@ -50,7 +54,7 @@ const CategoryBreakdown: React.FC<CategoryBreakdownProps> = ({
   };
 
   const totalAmountStyle: React.CSSProperties = {
-    fontSize: "32px",
+    fontSize: "28px",
     fontWeight: 700,
     color: COLORS.secondary.s10,
   };
@@ -62,8 +66,8 @@ const CategoryBreakdown: React.FC<CategoryBreakdownProps> = ({
   };
 
   const toggleButtonStyle: React.CSSProperties = {
-    width: "32px",
-    height: "32px",
+    width: "28px",
+    height: "28px",
     background: COLORS.secondary.s03,
     border: "none",
     borderRadius: "6px",
@@ -77,59 +81,56 @@ const CategoryBreakdown: React.FC<CategoryBreakdownProps> = ({
   };
 
   const listStyle: React.CSSProperties = {
-    padding: "8px",
+    padding: "8px 12px 12px",
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
+    gap: "2px 16px",
   };
 
   const itemStyle: React.CSSProperties = {
-    padding: "16px 24px",
+    padding: "6px 4px",
     display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
-    background: COLORS.secondary.s01,
-    borderRadius: "8px",
-    marginBottom: "8px",
-    transition: "all 0.2s",
+    alignItems: "baseline",
+    gap: "8px",
+    minWidth: 0,
   };
 
-  const itemInfoStyle: React.CSSProperties = {
+  const itemLabelStyle: React.CSSProperties = {
     display: "flex",
-    alignItems: "center",
-    gap: "16px",
+    alignItems: "baseline",
+    gap: "6px",
+    minWidth: 0,
+    flex: 1,
+    fontSize: "14px",
+    color: COLORS.secondary.s10,
   };
 
-  const itemIconStyle: React.CSSProperties = {
-    fontSize: "32px",
-    width: "48px",
-    height: "48px",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    background: "white",
-    borderRadius: "10px",
-    boxShadow: "0 1px 3px rgba(0, 0, 0, 0.1)",
-  };
-
-  const itemDetailsStyle: React.CSSProperties = {
-    display: "flex",
-    flexDirection: "column",
-    gap: "4px",
+  const itemEmojiStyle: React.CSSProperties = {
+    fontSize: "14px",
+    lineHeight: 1,
+    flexShrink: 0,
   };
 
   const itemNameStyle: React.CSSProperties = {
-    fontSize: "18px",
     fontWeight: 600,
-    color: COLORS.secondary.s10,
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    whiteSpace: "nowrap",
   };
 
-  const itemCountStyle: React.CSSProperties = {
-    fontSize: "14px",
+  const itemMetaStyle: React.CSSProperties = {
     color: COLORS.secondary.s07,
+    flexShrink: 0,
+    whiteSpace: "nowrap",
   };
 
   const itemAmountStyle: React.CSSProperties = {
-    fontSize: "24px",
+    fontSize: "14px",
     fontWeight: 700,
     color: COLORS.secondary.s10,
+    flexShrink: 0,
+    marginLeft: "auto",
+    fontVariantNumeric: "tabular-nums",
   };
 
   return (
@@ -139,6 +140,7 @@ const CategoryBreakdown: React.FC<CategoryBreakdownProps> = ({
         onClick={() => setIsCollapsed(!isCollapsed)}
         role="button"
         tabIndex={0}
+        aria-expanded={!isCollapsed}
         onKeyDown={(e) => {
           if (e.key === "Enter" || e.key === " ") {
             e.preventDefault();
@@ -150,8 +152,9 @@ const CategoryBreakdown: React.FC<CategoryBreakdownProps> = ({
         <span style={totalAmountStyle}>{formatAmount(total)}</span>
         <span style={totalCountStyle}>({totalCount} transactions)</span>
         <button
+          type="button"
           style={toggleButtonStyle}
-          aria-label={isCollapsed ? "Expand" : "Collapse"}
+          aria-label={isCollapsed ? "Expand category breakdown" : "Collapse category breakdown"}
           onClick={(e) => {
             e.stopPropagation();
             setIsCollapsed(!isCollapsed);
@@ -181,34 +184,17 @@ const CategoryBreakdown: React.FC<CategoryBreakdownProps> = ({
       </div>
 
       {!isCollapsed && (
-        <div style={listStyle}>
+        <div style={listStyle} role="list">
           {categories.map((category) => (
-            <div
-              key={category.category}
-              style={itemStyle}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.background = COLORS.secondary.s02;
-                e.currentTarget.style.transform = "translateY(-2px)";
-                e.currentTarget.style.boxShadow =
-                  "0 4px 12px rgba(0, 0, 0, 0.1)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.background = COLORS.secondary.s01;
-                e.currentTarget.style.transform = "translateY(0)";
-                e.currentTarget.style.boxShadow = "none";
-              }}
-            >
-              <div style={itemInfoStyle}>
-                <span style={itemIconStyle}>
+            <div key={category.category} style={itemStyle} role="listitem">
+              <div style={itemLabelStyle}>
+                <span style={itemEmojiStyle} aria-hidden="true">
                   {CATEGORY_EMOJIS[category.category] || "📊"}
                 </span>
-                <div style={itemDetailsStyle}>
-                  <div style={itemNameStyle}>{category.category}</div>
-                  <div style={itemCountStyle}>
-                    {category.count} transaction
-                    {category.count !== 1 ? "s" : ""}
-                  </div>
-                </div>
+                <span style={itemNameStyle}>{category.category}</span>
+                <span style={itemMetaStyle}>
+                  · {formatTxnCount(category.count)}
+                </span>
               </div>
               <div style={itemAmountStyle}>{formatAmount(category.amount)}</div>
             </div>
