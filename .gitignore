@@ -49,6 +49,7 @@
 *.swp
 *.swo
 *~
+/context
 
 # OS
 .DS_Store
