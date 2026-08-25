@@ -218,6 +218,7 @@ const HistoryPage: React.FC = () => {
           <>
             <CategoryBreakdown
               categories={categoryBreakdown}
+              categoryRecords={categories}
               total={total}
               totalCount={totalCount}
             />
