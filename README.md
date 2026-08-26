@@ -1,167 +1,71 @@
-> [!IMPORTANT]
-> **This repository was created for LiKHA-IT's technical test and does not guarantee functionality.**
+# Expense System
 
-# Technical Assessment
+A full-stack expense tracker with a monthly history view, category breakdown, and a Rails JSON API.
 
-## Overview
+Users can add, edit, and delete expenses, create categories (with an emoji), and browse spending by month and year.
 
-Welcome to the technical assessment phase of our recruitment process. This take-home examination is designed to evaluate your coding standards, problem-solving skills, and ability to navigate an existing codebase.
+## Features
 
-## 1. Timeline and Communication
+- Monthly expense history with year/month navigation
+- Add, edit, and delete expenses
+- Dynamic categories with a preset emoji picker
+- Category spending breakdown for the selected month
+- Expenses ordered by date (newest first)
+- Future expense dates blocked in both the UI and API
 
-- **Duration**: You have 3 calendar days to complete this assessment, starting from the time the invitation email was received.
-- **Support**: We do not provide technical support.
+## Tech stack
 
-## 2. Environment Setup
+| Layer | Tools |
+| --- | --- |
+| Frontend | React 18, TypeScript, Vite |
+| Backend | Ruby 3.3, Rails 7.2 (API) |
+| Database | MySQL 8 |
+| Tests | RSpec, RuboCop |
+| Dev environment | Docker Compose |
 
-- **Forking**: Please fork this repository to your personal GitHub account.
-- **Visibility**: Ensure your forked repository is set to **Public** so our engineering team can review your code submission.
+## Quick start
 
-## 3. Scope of Work
-
-Upon setting up the repository, locate the `TICKETS.md` file in the root directory. This file contains the detailed specifications for the required tasks:
-
-- 1 Feature Implementation
-- 1 Bug Fix
-
-## 4. Development Workflow
-
-We expect you to follow best practices regarding version control and documentation:
-
-- **Branching**: Create a dedicated branch for each specific task. Do not commit all changes to the main branch directly. (NOTE: please double check your work and make sure all tests pass)
-- **Pull Requests**: Open a separate Pull Request (PR) for each task.
-- **Documentation**: We place high value on communication. Ensure your PR descriptions are thorough, explaining your logic, architectural decisions, and how you solved the specific problem.
-
-## 5. Evaluation Criteria
-
-We will review your submission based on the following:
-
-- **Solution Quality**: Functionality and robustness of the code.
-- **Code Quality**: Cleanliness, readability, and adherence to standard patterns.
-- **Documentation**: The clarity and detail of your Pull Request descriptions.
-- **Going Above and Beyond**: You are encouraged to review the entire codebase. If you identify architectural flaws, security risks, or areas for optimization, feel free to open additional PRs or include a critique in your notes. This initiative is highly valued.
-
-## 6. Submission Instructions
-
-Once you have completed the assessment, please reply to the invitation email with the direct links to your Pull Requests using the format below:
-
-Email subject
-
-```
-LiKHA-IT TECHNICAL TEST: [Your name]
-```
-
-Email contents
-
-```
-TASK 1: [Link to Feature PR]
-TASK 2: [Link to Bug Fix PR]
-BONUS/CRITIQUE: [Link to Optional/Refactoring PR]
-** add any other PRs as needed **
-```
-
-NOTE: Please don't embed the PR url with the PR title. The following will suffice: `PR Title: https://github.com/{your-github-id}/likhait-technical-test/pull/{pull-request-number}`
-
-Good luck, and we look forward to reviewing your code.
-
----
-
-# System Description
-
-A full-stack expense tracking application with calendar-based visualization for managing personal finances.
-
-## Table of Contents
-
-- [Overview](#overview)
-- [Core Concepts](#core-concepts)
-- [Technology Stack](#technology-stack)
-- [Quick Start](#quick-start)
-- [Running Tests](#running-tests)
-- [Database Operations](#database-operations)
-- [Environment Configuration](#environment-configuration)
-- [Contributing](#contributing)
-- [Technical Assessment](#technical-assessment)
-
-## Overview
-
-The Expense System is a modern web application designed to help users track and visualize their expenses through an intuitive calendar interface. Built with a React frontend and Rails API backend, it provides a seamless experience for recording daily expenses, categorizing spending, and understanding financial patterns.
-
-## Core Concepts
-
-### Calendar-Based Visualization
-
-Expenses are displayed in a monthly calendar grid, making it easy to see spending patterns across days and weeks.
-
-### Category Organization
-
-All expenses are organized into 10 predefined categories (Food, Transport, Housing, Entertainment, Healthcare, Education, Shopping, Work, Utilities, Other), each with visual emoji indicators.
-
-### Real-Time Updates
-
-The application provides instant feedback when creating, updating, or deleting expenses without page reloads.
-
-### RESTful Architecture
-
-Clean separation between frontend and backend enables scalability and maintainability.
-
-## Technology Stack
-
-### Frontend
-
-- **React 18.2** with **TypeScript 5.3** for type-safe UI development
-- **Vite 5.1** as the modern build tool and development server
-- Custom **"Vibes"** component library for consistent design
-
-### Backend
-
-- **Ruby 3.3.7** with **Rails 7.2** in API-only mode
-- **MySQL 8.0** for relational data storage
-- **RSpec** for comprehensive testing
-
-### Infrastructure
-
-- **Docker Compose** for containerized development and deployment
-- **Puma** web server for handling concurrent requests
-- **CORS** configured for frontend-backend communication
-
-## Quick Start
-
-### Using Docker (Recommended)
+### Docker (recommended)
 
 ```bash
-# Clone and navigate to project
-cd expense_system_rails
-
-# Start all services
+git clone <repo-url>
+cd expense-system-react-rails
 docker compose up
-
-# Access the application
-# Frontend: http://localhost:5173
-# Backend API: http://localhost:3000/api
 ```
 
-### Manual Setup
+The first start runs migrations and seeds sample data. Seeding can take a few minutes.
 
-#### Backend
+| Service | URL |
+| --- | --- |
+| Frontend | http://localhost:5173 |
+| Backend API | http://localhost:3000/api |
+
+Stop with `Ctrl+C`, or run `docker compose up -d` to start in the background.
+
+### Manual setup
+
+MySQL 8, Ruby 3.3.7, and Node 18+ are required.
+
+**Backend**
 
 ```bash
 cd backend
 bundle install
 rails db:create db:migrate db:seed
-rails server  # Starts on port 3000
+rails server
 ```
 
-#### Frontend
+**Frontend** (in a second terminal)
 
 ```bash
 cd frontend
 npm install
-npm run dev  # Starts on port 5173
+npm run dev
 ```
 
-## Running Tests
+The Vite app expects the API at `http://localhost:3000`.
 
-### Backend Tests
+## Tests
 
 ```bash
 cd backend
@@ -169,28 +73,55 @@ bundle exec rspec
 bundle exec rubocop
 ```
 
-## Database Operations
-
-### Using Docker
+With Docker:
 
 ```bash
+docker compose exec backend bundle exec rspec
+docker compose exec backend bundle exec rubocop
+```
+
+Frontend typecheck and production build:
+
+```bash
+cd frontend
+npm run build
+```
+
+## API
+
+All JSON endpoints live under `/api`.
+
+| Method | Path | Description |
+| --- | --- | --- |
+| `GET` | `/api/categories` | List categories (alphabetical) |
+| `POST` | `/api/categories` | Create a category (`name`, optional `emoji`) |
+| `GET` | `/api/expenses` | List expenses; optional `year` and `month` filter by expense date |
+| `POST` | `/api/expenses` | Create an expense |
+| `PUT` | `/api/expenses/:id` | Update an expense |
+| `DELETE` | `/api/expenses/:id` | Delete an expense |
+
+Expense payloads use `description`, `amount`, `date`, and `category_id`. Dates cannot be in the future.
+
+## Database
+
+```bash
+# Docker
 docker compose exec backend rails db:migrate
 docker compose exec backend rails db:reset
 docker compose exec backend rails console
-```
 
-### Without Docker
-
-```bash
+# Local
 cd backend
 rails db:migrate
 rails db:reset
 rails console
 ```
 
-## Environment Configuration
+`db:reset` reloads schema and seed data.
 
-### Backend Environment Variables (Production)
+## Environment
+
+Development defaults are set in Docker Compose. For production, set:
 
 ```bash
 DATABASE_HOST=your-db-host
@@ -200,14 +131,6 @@ RAILS_ENV=production
 SECRET_KEY_BASE=$(rails secret)
 ```
 
-## Contributing
+## License
 
-1. Follow Rails and React best practices
-2. Maintain TypeScript type safety
-3. Write tests for new features
-4. Run code quality tools:
-   - Backend: `bundle exec rubocop`
-
----
-
-**Built with Ruby on Rails + React + TypeScript**
+Apache License 2.0. See [LICENSE](LICENSE).
