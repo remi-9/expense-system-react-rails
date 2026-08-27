@@ -4,6 +4,7 @@
 
 import React from "react";
 import { COLORS } from "../constants/colors";
+import { FONTS, SHADOW } from "../constants/fonts";
 
 interface Column {
   key: string;
@@ -27,34 +28,42 @@ export function ItemTable({
   const tableStyle: React.CSSProperties = {
     width: "100%",
     borderCollapse: "collapse",
-    backgroundColor: COLORS.background.main,
-    borderRadius: "0.5rem",
+    backgroundColor: COLORS.cream,
+    borderRadius: "2px",
     overflow: "hidden",
-    border: `1px solid ${COLORS.border}`,
+    border: `2px solid ${COLORS.ink}`,
+    boxShadow: SHADOW.stamp,
   };
 
   const theadStyle: React.CSSProperties = {
-    backgroundColor: COLORS.background.card,
+    backgroundColor: COLORS.secondary.s01,
   };
 
   const thStyle: React.CSSProperties = {
-    padding: "0.75rem",
+    padding: "0.85rem 0.9rem",
     textAlign: "left",
     fontWeight: 600,
-    color: COLORS.text.primary,
-    borderBottom: `2px solid ${COLORS.border}`,
+    color: COLORS.ink,
+    borderBottom: `2px solid ${COLORS.ink}`,
+    fontFamily: FONTS.mono,
+    fontSize: "0.72rem",
+    letterSpacing: "0.14em",
+    textTransform: "uppercase",
   };
 
   const tdStyle: React.CSSProperties = {
-    padding: "0.75rem",
-    borderBottom: `1px solid ${COLORS.border}`,
-    color: COLORS.text.primary,
+    padding: "0.85rem 0.9rem",
+    borderBottom: `1px solid ${COLORS.secondary.s04}`,
+    color: COLORS.ink,
   };
 
   const emptyStyle: React.CSSProperties = {
-    padding: "2rem",
+    padding: "2.5rem 1.5rem",
     textAlign: "center",
-    color: COLORS.text.secondary,
+    color: COLORS.secondary.s08,
+    fontFamily: FONTS.display,
+    fontStyle: "italic",
+    fontSize: "1.15rem",
   };
 
   if (data.length === 0) {

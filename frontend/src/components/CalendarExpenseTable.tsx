@@ -7,6 +7,8 @@ import { Category, Expense, ExpenseFormData } from "../types";
 import { formatCurrency, formatDate } from "../utils/expenseUtils";
 import { getCategoryEmoji } from "../constants/categoryEmojis";
 import { COLORS } from "../constants/colors";
+import { COPY } from "../constants/copy";
+import { FONTS, SHADOW } from "../constants/fonts";
 import { Button, Modal, Pagination } from "../vibes";
 import { ExpenseForm } from "./ExpenseForm.tsx";
 import { deleteExpense, updateExpense } from "../services/api";
@@ -54,7 +56,7 @@ export function CalendarExpenseTable({
       onExpenseUpdated();
     } catch (error) {
       console.error("Failed to delete expense:", error);
-      alert("Failed to delete expense");
+      alert(COPY.deleteFailed);
     }
   };
 
@@ -74,34 +76,42 @@ export function CalendarExpenseTable({
   const tableStyle: React.CSSProperties = {
     width: "100%",
     borderCollapse: "collapse",
-    backgroundColor: COLORS.background.main,
-    borderRadius: "0.5rem",
+    backgroundColor: COLORS.cream,
+    borderRadius: "2px",
     overflow: "hidden",
-    border: `1px solid ${COLORS.border}`,
+    border: `2px solid ${COLORS.ink}`,
+    boxShadow: SHADOW.stamp,
   };
 
   const theadStyle: React.CSSProperties = {
-    backgroundColor: COLORS.background.card,
+    backgroundColor: COLORS.secondary.s01,
   };
 
   const thStyle: React.CSSProperties = {
-    padding: "0.75rem",
+    padding: "0.85rem 0.9rem",
     textAlign: "left",
     fontWeight: 600,
-    color: COLORS.text.primary,
-    borderBottom: `2px solid ${COLORS.border}`,
+    color: COLORS.ink,
+    borderBottom: `2px solid ${COLORS.ink}`,
+    fontFamily: FONTS.mono,
+    fontSize: "0.72rem",
+    letterSpacing: "0.14em",
+    textTransform: "uppercase",
   };
 
   const tdStyle: React.CSSProperties = {
-    padding: "0.75rem",
-    borderBottom: `1px solid ${COLORS.border}`,
-    color: COLORS.text.primary,
+    padding: "0.85rem 0.9rem",
+    borderBottom: `1px solid ${COLORS.secondary.s04}`,
+    color: COLORS.ink,
   };
 
   const emptyStyle: React.CSSProperties = {
-    padding: "2rem",
+    padding: "2.5rem 1.5rem",
     textAlign: "center",
-    color: COLORS.text.secondary,
+    color: COLORS.secondary.s08,
+    fontFamily: FONTS.display,
+    fontStyle: "italic",
+    fontSize: "1.15rem",
   };
 
   const actionButtonsStyle: React.CSSProperties = {
@@ -113,7 +123,7 @@ export function CalendarExpenseTable({
     return (
       <div style={tableStyle}>
         <div style={emptyStyle}>
-          No expenses found. Add your first expense to get started!
+          {COPY.emptyMonth}
         </div>
       </div>
     );
@@ -134,7 +144,9 @@ export function CalendarExpenseTable({
         <tbody>
           {currentExpenses.map((expense) => (
             <tr key={expense.id}>
-              <td style={tdStyle}>{formatDate(new Date(expense.date))}</td>
+              <td style={{ ...tdStyle, fontFamily: FONTS.mono, fontSize: "0.9rem" }}>
+                {formatDate(new Date(expense.date))}
+              </td>
               <td style={tdStyle}>{expense.description}</td>
               <td style={tdStyle}>
                 <span
@@ -148,7 +160,15 @@ export function CalendarExpenseTable({
                   <span>{expense.category}</span>
                 </span>
               </td>
-              <td style={{ ...tdStyle, textAlign: "left", fontWeight: 600 }}>
+              <td
+                style={{
+                  ...tdStyle,
+                  textAlign: "left",
+                  fontWeight: 600,
+                  fontFamily: FONTS.mono,
+                  color: COLORS.copper,
+                }}
+              >
                 {formatCurrency(expense.amount)}
               </td>
               <td style={{ ...tdStyle, textAlign: "center" }}>
@@ -186,7 +206,7 @@ export function CalendarExpenseTable({
           setIsEditModalOpen(false);
           setEditingExpense(null);
         }}
-        title="Edit Expense"
+        title={COPY.editExpenseModal}
       >
         {editingExpense && (
           <ExpenseForm
@@ -202,7 +222,7 @@ export function CalendarExpenseTable({
               setIsEditModalOpen(false);
               setEditingExpense(null);
             }}
-            submitLabel="Update Expense"
+            submitLabel={COPY.updateExpense}
           />
         )}
       </Modal>
@@ -213,11 +233,11 @@ export function CalendarExpenseTable({
           setIsDeleteModalOpen(false);
           setDeletingExpense(null);
         }}
-        title="Delete Expense"
+        title={COPY.deleteTitle}
       >
         <div style={{ padding: "1rem 0" }}>
           <p style={{ marginBottom: "1.5rem", color: COLORS.text.primary }}>
-            Are you sure you want to delete this expense?
+            {COPY.deleteConfirm}
           </p>
           {deletingExpense && (
             <p style={{ marginBottom: "1.5rem", color: COLORS.text.secondary }}>

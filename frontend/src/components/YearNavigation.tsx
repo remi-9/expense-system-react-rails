@@ -1,5 +1,6 @@
 import React from "react";
 import { COLORS } from "../constants/colors";
+import { FONTS } from "../constants/fonts";
 
 interface YearNavigationProps {
   currentYear: number;
@@ -13,30 +14,32 @@ export function YearNavigation({
   const containerStyle: React.CSSProperties = {
     display: "flex",
     alignItems: "center",
-    gap: "16px",
+    gap: "12px",
   };
 
   const buttonStyle: React.CSSProperties = {
-    width: "48px",
-    height: "48px",
+    width: "40px",
+    height: "40px",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    background: "white",
-    border: `1px solid ${COLORS.secondary.s04}`,
-    borderRadius: "8px",
+    background: "transparent",
+    border: `2px solid ${COLORS.ink}`,
+    borderRadius: "2px",
     cursor: "pointer",
-    fontSize: "18px",
-    color: COLORS.secondary.s08,
-    transition: "all 0.2s",
+    fontSize: "16px",
+    color: COLORS.ink,
   };
 
   const yearStyle: React.CSSProperties = {
-    fontSize: "36px",
+    fontSize: "42px",
     fontWeight: 700,
-    color: COLORS.secondary.s10,
-    minWidth: "120px",
+    fontFamily: FONTS.display,
+    fontStyle: "italic",
+    color: COLORS.ink,
+    minWidth: "110px",
     textAlign: "center",
+    lineHeight: 1,
   };
 
   return (
@@ -46,11 +49,9 @@ export function YearNavigation({
         onClick={() => onYearChange(currentYear - 1)}
         onMouseEnter={(e) => {
           e.currentTarget.style.background = COLORS.secondary.s02;
-          e.currentTarget.style.borderColor = COLORS.secondary.s05;
         }}
         onMouseLeave={(e) => {
-          e.currentTarget.style.background = "white";
-          e.currentTarget.style.borderColor = COLORS.secondary.s04;
+          e.currentTarget.style.background = "transparent";
         }}
       >
         ←
@@ -61,11 +62,9 @@ export function YearNavigation({
         onClick={() => onYearChange(currentYear + 1)}
         onMouseEnter={(e) => {
           e.currentTarget.style.background = COLORS.secondary.s02;
-          e.currentTarget.style.borderColor = COLORS.secondary.s05;
         }}
         onMouseLeave={(e) => {
-          e.currentTarget.style.background = "white";
-          e.currentTarget.style.borderColor = COLORS.secondary.s04;
+          e.currentTarget.style.background = "transparent";
         }}
       >
         →

@@ -7,6 +7,7 @@ import { Category, ExpenseFormData } from "../types";
 import { TextField, SelectBox, Button } from "../vibes";
 import { useExpenseForm } from "../hooks/useExpenseForm";
 import { formatDate } from "../utils/expenseUtils";
+import { COPY } from "../constants/copy";
 
 interface ExpenseFormProps {
   categories: Category[];
@@ -21,7 +22,7 @@ export function ExpenseForm({
   initialData,
   onSubmit,
   onCancel,
-  submitLabel = "Add Expense",
+  submitLabel = COPY.addExpense,
 }: ExpenseFormProps) {
   const { formData, errors, isSubmitting, handleChange, handleSubmit } =
     useExpenseForm({
@@ -43,7 +44,7 @@ export function ExpenseForm({
 
   const categoryOptions = categories.map((category) => ({
     value: category.name,
-    label: category.name,
+    label: `${category.emoji} ${category.name}`,
   }));
 
   return (
@@ -63,7 +64,7 @@ export function ExpenseForm({
       <TextField
         label="Description"
         type="text"
-        placeholder="Enter description"
+        placeholder={COPY.descriptionPlaceholder}
         value={formData.description}
         onChange={(e) => handleChange("description", e.target.value)}
         error={errors.description}
@@ -76,6 +77,7 @@ export function ExpenseForm({
         options={categoryOptions}
         value={formData.category}
         onChange={(e) => handleChange("category", e.target.value)}
+        placeholder={COPY.categorySelectPlaceholder}
         error={errors.category}
         fullWidth
         required
@@ -99,7 +101,7 @@ export function ExpenseForm({
           disabled={isSubmitting}
           fullWidth
         >
-          {isSubmitting ? "Submitting..." : submitLabel}
+          {isSubmitting ? COPY.submitting : submitLabel}
         </Button>
         {onCancel && (
           <Button

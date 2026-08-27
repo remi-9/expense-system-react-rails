@@ -4,6 +4,7 @@
 
 import React from "react";
 import { COLORS } from "../constants/colors";
+import { FONTS } from "../constants/fonts";
 
 interface FormControlProps {
   label?: string;
@@ -28,8 +29,11 @@ export function FormControl({
   };
 
   const labelStyle: React.CSSProperties = {
-    fontSize: "0.875rem",
+    fontSize: "0.72rem",
     fontWeight: 600,
+    letterSpacing: "0.12em",
+    textTransform: "uppercase",
+    fontFamily: FONTS.mono,
     color: COLORS.text.primary,
     display: "flex",
     alignItems: "center",

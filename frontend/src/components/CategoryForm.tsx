@@ -9,6 +9,8 @@ import {
   DEFAULT_CATEGORY_EMOJI,
 } from "../constants/categoryEmojis";
 import { COLORS } from "../constants/colors";
+import { COPY } from "../constants/copy";
+import { FONTS } from "../constants/fonts";
 import { TextField, Button } from "../vibes";
 
 interface CategoryFormProps {
@@ -35,9 +37,13 @@ export function CategoryForm({ onSubmit, onCancel }: CategoryFormProps) {
   };
 
   const emojiLabelStyle: React.CSSProperties = {
-    fontSize: "0.875rem",
+    fontSize: "0.72rem",
     fontWeight: 600,
+    letterSpacing: "0.12em",
+    textTransform: "uppercase",
+    fontFamily: FONTS.mono,
     color: COLORS.text.primary,
+    marginBottom: "0.5rem",
   };
 
   const emojiGridStyle: React.CSSProperties = {
@@ -50,9 +56,9 @@ export function CategoryForm({ onSubmit, onCancel }: CategoryFormProps) {
     fontSize: "1.25rem",
     lineHeight: 1,
     padding: "0.5rem",
-    borderRadius: "0.375rem",
-    border: `1px solid ${selected ? COLORS.primary.p05 : COLORS.border}`,
-    backgroundColor: selected ? COLORS.primary.p01 : COLORS.background.main,
+    borderRadius: "2px",
+    border: `2px solid ${selected ? COLORS.copper : COLORS.ink}`,
+    backgroundColor: selected ? COLORS.primary.p01 : COLORS.cream,
     cursor: "pointer",
   });
 
@@ -84,7 +90,7 @@ export function CategoryForm({ onSubmit, onCancel }: CategoryFormProps) {
     <form onSubmit={handleSubmit} style={formStyle}>
       <TextField
         label="Category Name"
-        placeholder="Enter category name"
+        placeholder={COPY.categoryPlaceholder}
         value={name}
         onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
           setName(e.target.value);
@@ -98,7 +104,7 @@ export function CategoryForm({ onSubmit, onCancel }: CategoryFormProps) {
       />
 
       <div>
-        <div style={emojiLabelStyle}>Emoji</div>
+        <div style={emojiLabelStyle}>{COPY.emojiLabel}</div>
         <div
           style={emojiGridStyle}
           role="radiogroup"
@@ -131,7 +137,7 @@ export function CategoryForm({ onSubmit, onCancel }: CategoryFormProps) {
           disabled={isSubmitting}
           fullWidth
         >
-          {isSubmitting ? "Adding..." : "Add Category"}
+          {isSubmitting ? COPY.adding : COPY.saveCategory}
         </Button>
         {onCancel && (
           <Button

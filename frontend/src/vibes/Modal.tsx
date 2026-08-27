@@ -1,9 +1,6 @@
-/**
- * Reusable Modal component
- */
-
 import React, { useEffect } from "react";
 import { COLORS } from "../constants/colors";
+import { FONTS, SHADOW } from "../constants/fonts";
 
 interface ModalProps {
   isOpen: boolean;
@@ -46,7 +43,7 @@ export function Modal({
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    backgroundColor: "rgba(36, 25, 16, 0.62)",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
@@ -54,37 +51,43 @@ export function Modal({
   };
 
   const modalStyle: React.CSSProperties = {
-    backgroundColor: COLORS.background.main,
-    borderRadius: "0.5rem",
-    padding: "1.5rem",
+    backgroundColor: COLORS.cream,
+    borderRadius: "2px",
+    padding: "1.75rem",
     maxWidth,
     width: "90%",
     maxHeight: "90vh",
     overflow: "auto",
-    boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+    border: `2px solid ${COLORS.ink}`,
+    boxShadow: SHADOW.stamp,
   };
 
   const headerStyle: React.CSSProperties = {
     display: "flex",
     justifyContent: "space-between",
-    alignItems: "center",
+    alignItems: "baseline",
     marginBottom: "1.5rem",
+    borderBottom: `2px solid ${COLORS.ink}`,
+    paddingBottom: "0.75rem",
   };
 
   const titleStyle: React.CSSProperties = {
-    fontSize: "1.25rem",
+    fontSize: "1.6rem",
     fontWeight: 700,
-    color: COLORS.text.primary,
+    fontFamily: FONTS.display,
+    fontStyle: "italic",
+    color: COLORS.ink,
   };
 
   const closeButtonStyle: React.CSSProperties = {
     background: "none",
     border: "none",
-    fontSize: "1.5rem",
+    fontSize: "1.75rem",
     cursor: "pointer",
-    color: COLORS.text.secondary,
+    color: COLORS.ink,
     padding: "0.25rem",
     lineHeight: 1,
+    fontFamily: FONTS.display,
   };
 
   return (

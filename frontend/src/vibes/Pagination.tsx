@@ -4,6 +4,7 @@
 
 import React from "react";
 import { COLORS } from "../constants/colors";
+import { FONTS } from "../constants/fonts";
 import { Button } from "./Button";
 
 interface PaginationProps {
@@ -26,9 +27,12 @@ export function Pagination({
   };
 
   const pageInfoStyle: React.CSSProperties = {
-    color: COLORS.text.secondary,
-    fontSize: "0.875rem",
+    color: COLORS.ink,
+    fontSize: "0.8rem",
     margin: "0 1rem",
+    fontFamily: FONTS.mono,
+    letterSpacing: "0.08em",
+    textTransform: "uppercase",
   };
 
   if (totalPages <= 1) {

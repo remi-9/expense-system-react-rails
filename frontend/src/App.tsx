@@ -15,8 +15,9 @@ function App() {
 
   const mainStyle: React.CSSProperties = {
     flex: 1,
-    marginLeft: isSidebarCollapsed ? "80px" : "360px",
+    marginLeft: isSidebarCollapsed ? "88px" : "300px",
     transition: "margin-left 0.3s ease",
+    minWidth: 0,
   };
 
   const handleToggleSidebar = () => {

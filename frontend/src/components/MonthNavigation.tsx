@@ -1,9 +1,6 @@
-/**
- * Month navigation component
- */
-
 import React from "react";
 import { COLORS } from "../constants/colors";
+import { FONTS } from "../constants/fonts";
 
 interface MonthNavigationProps {
   currentMonth: number;
@@ -49,48 +46,49 @@ export function MonthNavigation({
 
   const wrapperStyle: React.CSSProperties = {
     display: "flex",
-    alignItems: "center",
-    gap: "16px",
-    padding: "16px 0",
+    alignItems: "stretch",
+    gap: "12px",
+    padding: "8px 0 28px",
+    marginBottom: "28px",
   };
 
   const containerStyle: React.CSSProperties = {
     display: "grid",
     gridTemplateColumns: "repeat(12, 1fr)",
-    gap: "12px",
-    maxWidth: "900px",
-    marginRight: "32px",
+    gap: "0",
     flex: 1,
+    borderTop: `2px solid ${COLORS.ink}`,
+    borderBottom: `2px solid ${COLORS.ink}`,
   };
 
   const navigationButtonStyle: React.CSSProperties = {
-    padding: "12px 16px",
+    padding: "10px 14px",
     fontSize: "16px",
-    fontWeight: 500,
-    border: "none",
-    borderRadius: "8px",
+    fontWeight: 600,
+    border: `2px solid ${COLORS.ink}`,
+    borderRadius: "2px",
     cursor: "pointer",
-    transition: "all 0.2s",
-    background: COLORS.primary.p05,
-    color: "white",
-    boxShadow: "0 1px 3px rgba(0, 0, 0, 0.1)",
-    minWidth: "48px",
+    background: COLORS.cream,
+    color: COLORS.ink,
+    minWidth: "44px",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
+    fontFamily: FONTS.body,
   };
 
   const getMonthButtonStyle = (month: number): React.CSSProperties => ({
-    padding: "12px 20px",
-    fontSize: "16px",
-    fontWeight: 500,
+    padding: "12px 4px",
+    fontSize: "13px",
+    fontWeight: currentMonth === month ? 700 : 500,
     border: "none",
-    borderRadius: "8px",
+    borderRight: month === 12 ? "none" : `1px solid ${COLORS.ink}`,
     cursor: "pointer",
-    transition: "all 0.2s",
-    background: currentMonth === month ? COLORS.primary.p05 : "white",
-    color: currentMonth === month ? "white" : COLORS.secondary.s08,
-    boxShadow: "0 1px 3px rgba(0, 0, 0, 0.1)",
+    background: currentMonth === month ? COLORS.copper : "transparent",
+    color: currentMonth === month ? COLORS.cream : COLORS.ink,
+    fontFamily: FONTS.mono,
+    letterSpacing: "0.04em",
+    textTransform: "uppercase",
   });
 
   return (
@@ -98,12 +96,6 @@ export function MonthNavigation({
       <button
         style={navigationButtonStyle}
         onClick={handlePreviousMonth}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.background = COLORS.primary.p04;
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.background = COLORS.primary.p05;
-        }}
         title="Previous month"
       >
         ←
@@ -121,7 +113,7 @@ export function MonthNavigation({
             }}
             onMouseLeave={(e) => {
               if (currentMonth !== month.value) {
-                e.currentTarget.style.background = "white";
+                e.currentTarget.style.background = "transparent";
               }
             }}
           >
@@ -132,12 +124,6 @@ export function MonthNavigation({
       <button
         style={navigationButtonStyle}
         onClick={handleNextMonth}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.background = COLORS.primary.p04;
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.background = COLORS.primary.p05;
-        }}
         title="Next month"
       >
         →

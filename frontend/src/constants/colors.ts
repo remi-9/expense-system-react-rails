@@ -1,102 +1,104 @@
 /**
- * Vibes Color System
- * Color palette from freee/vibes design system
+ * January Ledger
+ * Walnut cover, copper ink, ruled paper. Not a dashboard.
  */
 
+const ink = "#1c1610";
+const cream = "#f6eedc";
+const paper = "#f2e8d0";
+const copper = "#c4451c";
+const walnut = "#241910";
+
 export const COLORS = {
-  // Primary colors (Blue)
+  cover: walnut,
+  cream,
+  copper,
+  ink,
+
   primary: {
-    p01: "#ebf3ff",
-    p02: "#dce8ff",
-    p03: "#aac8ff",
-    p04: "#73a5ff",
-    p05: "#2864f0",
-    p06: "#3264dc",
-    p07: "#285ac8",
-    p08: "#1e46aa",
-    p09: "#23418c",
-    p10: "#143278",
+    p01: "#f8e4d6",
+    p02: "#efc4a8",
+    p03: "#e39268",
+    p04: "#d26538",
+    p05: copper,
+    p06: "#a83616",
+    p07: "#7a2812",
+    p08: "#5c1e0e",
+    p09: "#3d160c",
+    p10: walnut,
   },
-  // Secondary colors (Gray)
   secondary: {
-    s01: "#f7f5f5",
-    s02: "#f0eded",
-    s03: "#e9e7e7",
-    s04: "#e1dcdc",
-    s05: "#d7d2d2",
-    s06: "#bebaba",
-    s07: "#aaa7a7",
-    s08: "#8c8989",
-    s09: "#6e6b6b",
-    s10: "#464343",
+    s01: paper,
+    s02: "#eadcbd",
+    s03: "#e0d0a8",
+    s04: "#d3c3a4",
+    s05: "#c4b28e",
+    s06: "#a89470",
+    s07: "#8a7860",
+    s08: "#6b5e4e",
+    s09: "#4a4036",
+    s10: ink,
   },
-  // Red
   red: {
-    re02: "#fad2d7",
-    re04: "#f07882",
-    re05: "#dc1e32",
-    re07: "#a51428",
-    re10: "#6e0f19",
+    re02: "#f3d0c8",
+    re04: "#d97868",
+    re05: "#9b1d1d",
+    re07: "#7a1616",
+    re10: "#4a0e0e",
   },
-  // Orange
   orange: {
-    or02: "#ffe1d2",
-    or04: "#ffaa78",
-    or05: "#fa6414",
-    or07: "#be4b0f",
-    or10: "#7d320a",
+    or02: "#f8e4d6",
+    or04: "#e39268",
+    or05: copper,
+    or07: "#a83616",
+    or10: "#5c1e0e",
   },
-  // Yellow
   yellow: {
-    ye02: "#fff0d2",
-    ye04: "#ffd278",
-    ye05: "#ffb91e",
-    ye07: "#be8c14",
-    ye10: "#825a0f",
+    ye02: "#f4e6c4",
+    ye04: "#e2c56a",
+    ye05: "#c9a227",
+    ye07: "#8c7018",
+    ye10: "#5a4810",
   },
-  // Yellow Green
   yellowGreen: {
-    yg02: "#e6f0d2",
-    yg04: "#b4dc7d",
-    yg05: "#82c31e",
-    yg07: "#50961e",
-    yg10: "#3c5f14",
+    yg02: "#e4ecd4",
+    yg04: "#b4c98a",
+    yg05: "#6e8c3c",
+    yg07: "#4c6428",
+    yg10: "#334418",
   },
-  // Green
   green: {
-    gr02: "#cdebd7",
-    gr04: "#64be8c",
-    gr05: "#00963c",
-    gr07: "#006e2d",
-    gr10: "#004b1e",
+    gr02: "#d5e4d8",
+    gr04: "#7eab8a",
+    gr05: "#2d5a3d",
+    gr07: "#214330",
+    gr10: "#162c20",
   },
-  // Blue Green
   blueGreen: {
-    bg02: "#cdf0f0",
-    bg04: "#64d2d2",
-    bg05: "#00b9b9",
-    bg07: "#008c8c",
-    bg10: "#146464",
+    bg02: "#d4e4e0",
+    bg04: "#7eb0a8",
+    bg05: "#2f6b62",
+    bg07: "#234e48",
+    bg10: "#163430",
   },
-  // Backwards compatible mappings
   accent: {
-    a01: "#dc1e32", // Maps to red.re05
-    a02: "#f07882", // Maps to red.re04
-    a03: "#a51428", // Maps to red.re07
+    a01: copper,
+    a02: "#e39268",
+    a03: "#a83616",
   },
-  success: "#00963c", // Maps to green.gr05
-  warning: "#ffb91e", // Maps to yellow.ye05
-  danger: "#dc1e32", // Maps to red.re05
-  info: "#00b9b9", // Maps to blueGreen.bg05
+  success: "#2d5a3d",
+  warning: "#c9a227",
+  danger: "#9b1d1d",
+  info: "#2f6b62",
   text: {
-    primary: "#464343", // Maps to secondary.s10
-    secondary: "#6e6b6b", // Maps to secondary.s09
-    light: "#aaa7a7", // Maps to secondary.s07
+    primary: ink,
+    secondary: "#6b5e4e",
+    light: "#8a7860",
   },
-  border: "#e1dcdc", // Maps to secondary.s04
+  border: "#d3c3a4",
   background: {
-    main: "#ffffff",
-    card: "#f7f5f5", // Maps to secondary.s01
-    hover: "#f0eded", // Maps to secondary.s02
+    main: cream,
+    card: paper,
+    hover: "#eadcbd",
   },
 } as const;

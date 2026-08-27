@@ -14,6 +14,8 @@ import { ExpenseForm } from "../components/ExpenseForm";
 import { CategoryForm } from "../components/CategoryForm";
 import { Modal, Button } from "../vibes";
 import { COLORS } from "../constants/colors";
+import { COPY } from "../constants/copy";
+import { FONTS } from "../constants/fonts";
 
 const HistoryPage: React.FC = () => {
   const [expenses, setExpenses] = useState<Expense[]>([]);
@@ -87,9 +89,10 @@ const HistoryPage: React.FC = () => {
     updateURL(year, selectedMonth);
   };
 
-  const handleMonthChange = (month: number) => {
+  const handleMonthChange = (month: number, year: number = selectedYear) => {
     setSelectedMonth(month);
-    updateURL(selectedYear, month);
+    setSelectedYear(year);
+    updateURL(year, month);
   };
 
   const handleAddExpense = async (data: ExpenseFormData) => {
@@ -138,21 +141,21 @@ const HistoryPage: React.FC = () => {
   );
 
   const pageStyle: React.CSSProperties = {
-    padding: "48px 64px",
+    padding: "48px 56px 72px",
     minHeight: "100vh",
-    background: COLORS.secondary.s01,
   };
 
   const headerStyle: React.CSSProperties = {
     display: "flex",
-    alignItems: "center",
+    alignItems: "flex-end",
     gap: "24px",
     justifyContent: "space-between",
+    marginBottom: "8px",
   };
 
   const leftHeaderStyle: React.CSSProperties = {
     display: "flex",
-    alignItems: "center",
+    alignItems: "flex-end",
     gap: "24px",
   };
 
@@ -163,11 +166,14 @@ const HistoryPage: React.FC = () => {
   };
 
   const titleStyle: React.CSSProperties = {
-    fontSize: "40px",
+    fontSize: "48px",
     fontWeight: 700,
-    color: COLORS.secondary.s10,
+    fontFamily: FONTS.display,
+    fontStyle: "italic",
+    color: COLORS.ink,
     margin: 0,
     flexShrink: 0,
+    lineHeight: 0.95,
   };
 
   const loadingStyle: React.CSSProperties = {
@@ -175,15 +181,17 @@ const HistoryPage: React.FC = () => {
     justifyContent: "center",
     alignItems: "center",
     padding: "48px",
-    fontSize: "18px",
+    fontSize: "20px",
+    fontFamily: FONTS.display,
+    fontStyle: "italic",
     color: COLORS.secondary.s08,
   };
 
   return (
-    <div style={pageStyle}>
+    <div className="ledger-page" style={pageStyle}>
       <div style={headerStyle}>
         <div style={leftHeaderStyle}>
-          <h1 style={titleStyle}>Expense History</h1>
+          <h1 style={titleStyle}>{COPY.historyTitle}</h1>
           <YearNavigation
             currentYear={selectedYear}
             onYearChange={handleYearChange}
@@ -194,13 +202,13 @@ const HistoryPage: React.FC = () => {
             variant="secondary"
             onClick={() => setIsCategoryModalOpen(true)}
           >
-            Add Category
+            {COPY.addCategory}
           </Button>
           <Button
             variant="primary"
             onClick={() => setIsExpenseModalOpen(true)}
           >
-            Add Expense
+            {COPY.addExpense}
           </Button>
         </div>
       </div>
@@ -213,7 +221,7 @@ const HistoryPage: React.FC = () => {
 
       <div>
         {loading ? (
-          <div style={loadingStyle}>Loading...</div>
+          <div style={loadingStyle}>{COPY.loading}</div>
         ) : (
           <>
             <CategoryBreakdown
@@ -236,7 +244,7 @@ const HistoryPage: React.FC = () => {
       <Modal
         isOpen={isExpenseModalOpen}
         onClose={() => setIsExpenseModalOpen(false)}
-        title="Add New Expense"
+        title={COPY.addExpenseModal}
       >
         <ExpenseForm
           categories={categories}
@@ -248,7 +256,7 @@ const HistoryPage: React.FC = () => {
       <Modal
         isOpen={isCategoryModalOpen}
         onClose={() => setIsCategoryModalOpen(false)}
-        title="Add Category"
+        title={COPY.addCategoryModal}
       >
         <CategoryForm
           onSubmit={handleAddCategory}

@@ -1,0 +1,58 @@
+:root {
+  --paper: #f2e8d0;
+  --cream: #f6eedc;
+  --ink: #1c1610;
+  --copper: #c4451c;
+  --font-display: "Fraunces", Georgia, serif;
+  --font-body: "Outfit", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  font-family: var(--font-body);
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--ink);
+  background: var(--paper);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background: var(--copper);
+  color: var(--cream);
+}
+
+button,
+input,
+select {
+  font-family: inherit;
+}
+
+button {
+  appearance: none;
+}
+
+.ledger-page {
+  background-color: var(--paper);
+  background-image: repeating-linear-gradient(
+    transparent,
+    transparent 27px,
+    rgba(28, 22, 16, 0.045) 27px,
+    rgba(28, 22, 16, 0.045) 28px
+  );
+}

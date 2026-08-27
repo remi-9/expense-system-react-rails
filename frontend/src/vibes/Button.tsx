@@ -1,9 +1,6 @@
-/**
- * Reusable Button component
- */
-
 import React from "react";
 import { COLORS } from "../constants/colors";
+import { FONTS, SHADOW } from "../constants/fonts";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: "primary" | "secondary" | "danger" | "success";
@@ -23,27 +20,27 @@ export function Button({
     switch (variant) {
       case "primary":
         return {
-          backgroundColor: COLORS.primary.p06,
-          color: "white",
-          border: "none",
+          backgroundColor: COLORS.copper,
+          color: COLORS.cream,
+          border: `2px solid ${COLORS.ink}`,
         };
       case "secondary":
         return {
-          backgroundColor: COLORS.secondary.s02,
-          color: COLORS.text.primary,
-          border: `1px solid ${COLORS.border}`,
+          backgroundColor: COLORS.cream,
+          color: COLORS.ink,
+          border: `2px solid ${COLORS.ink}`,
         };
       case "danger":
         return {
           backgroundColor: COLORS.danger,
-          color: "white",
-          border: "none",
+          color: COLORS.cream,
+          border: `2px solid ${COLORS.ink}`,
         };
       case "success":
         return {
           backgroundColor: COLORS.success,
-          color: "white",
-          border: "none",
+          color: COLORS.cream,
+          border: `2px solid ${COLORS.ink}`,
         };
     }
   };
@@ -51,11 +48,11 @@ export function Button({
   const getSizeStyles = () => {
     switch (size) {
       case "small":
-        return { padding: "0.375rem 0.75rem", fontSize: "0.875rem" };
+        return { padding: "0.3rem 0.7rem", fontSize: "0.8rem" };
       case "medium":
-        return { padding: "0.5rem 1rem", fontSize: "1rem" };
+        return { padding: "0.55rem 1.05rem", fontSize: "0.95rem" };
       case "large":
-        return { padding: "0.75rem 1.5rem", fontSize: "1.125rem" };
+        return { padding: "0.75rem 1.4rem", fontSize: "1.05rem" };
     }
   };
 
@@ -63,11 +60,14 @@ export function Button({
     ...getVariantStyles(),
     ...getSizeStyles(),
     width: fullWidth ? "100%" : "auto",
-    borderRadius: "0.375rem",
+    borderRadius: "2px",
     cursor: disabled ? "not-allowed" : "pointer",
-    opacity: disabled ? 0.6 : 1,
+    opacity: disabled ? 0.55 : 1,
     fontWeight: 600,
-    transition: "all 0.2s",
+    fontFamily: FONTS.body,
+    letterSpacing: "0.02em",
+    boxShadow: disabled ? "none" : SHADOW.stamp,
+    transition: "transform 0.12s ease, box-shadow 0.12s ease",
     display: "inline-flex",
     alignItems: "center",
     justifyContent: "center",
@@ -75,7 +75,23 @@ export function Button({
   };
 
   return (
-    <button style={styles} disabled={disabled} {...props}>
+    <button
+      style={styles}
+      disabled={disabled}
+      {...props}
+      onMouseEnter={(e) => {
+        if (!disabled) {
+          e.currentTarget.style.transform = "translate(2px, 2px)";
+          e.currentTarget.style.boxShadow = SHADOW.stampHover;
+        }
+        props.onMouseEnter?.(e);
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.transform = "translate(0, 0)";
+        e.currentTarget.style.boxShadow = disabled ? "none" : SHADOW.stamp;
+        props.onMouseLeave?.(e);
+      }}
+    >
       {children}
     </button>
   );

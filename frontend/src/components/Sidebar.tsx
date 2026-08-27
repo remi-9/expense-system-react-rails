@@ -1,5 +1,7 @@
 import React from "react";
 import { COLORS } from "../constants/colors";
+import { COPY } from "../constants/copy";
+import { FONTS } from "../constants/fonts";
 
 interface SidebarProps {
   onNavigate?: (page: string) => void;
@@ -15,90 +17,113 @@ const Sidebar: React.FC<SidebarProps> = ({
   onToggleCollapse,
 }) => {
   const sidebarStyle: React.CSSProperties = {
-    width: isCollapsed ? "80px" : "360px",
+    width: isCollapsed ? "88px" : "300px",
     height: "100vh",
-    background: `linear-gradient(180deg, ${COLORS.primary.p01} 0%, ${COLORS.primary.p02} 100%)`,
+    background: `linear-gradient(165deg, #2e2118 0%, ${COLORS.cover} 55%, #1a120c 100%)`,
     display: "flex",
     flexDirection: "column",
-    borderRight: `1px solid ${COLORS.secondary.s04}`,
+    borderRight: `8px solid ${COLORS.copper}`,
     position: "fixed",
     left: 0,
     top: 0,
-    transition: "width 0.1s ease",
+    transition: "width 0.2s ease",
+    color: COLORS.cream,
   };
 
   const headerStyle: React.CSSProperties = {
-    padding: "24px 16px",
+    padding: isCollapsed ? "28px 12px" : "32px 20px 24px",
     display: "flex",
-    alignItems: "center",
+    alignItems: "flex-start",
     justifyContent: "space-between",
-    borderBottom: `1px solid ${COLORS.secondary.s04}`,
+    gap: "8px",
   };
 
   const logoStyle: React.CSSProperties = {
     display: "flex",
     alignItems: "center",
-    gap: "16px",
+    gap: "14px",
+    minWidth: 0,
   };
 
   const logoIconStyle: React.CSSProperties = {
-    width: "48px",
-    height: "48px",
-    background: COLORS.primary.p07,
-    borderRadius: "12px",
+    width: "52px",
+    height: "52px",
+    background: COLORS.copper,
+    borderRadius: "50%",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
     fontSize: "28px",
-    fontWeight: "bold",
-    color: "white",
+    fontWeight: 700,
+    color: COLORS.cream,
+    fontFamily: FONTS.display,
+    flexShrink: 0,
+    boxShadow: "inset 0 0 0 3px rgba(246, 238, 220, 0.25)",
   };
 
   const logoTextStyle: React.CSSProperties = {
     display: isCollapsed ? "none" : "flex",
     flexDirection: "column",
+    minWidth: 0,
   };
 
   const logoTitleStyle: React.CSSProperties = {
-    fontSize: "24px",
+    fontSize: "22px",
     fontWeight: 700,
-    color: COLORS.primary.p09,
-    lineHeight: 1.2,
+    fontFamily: FONTS.display,
+    fontStyle: "italic",
+    color: COLORS.cream,
+    lineHeight: 1.15,
+  };
+
+  const logoTaglineStyle: React.CSSProperties = {
+    fontSize: "12px",
+    fontWeight: 500,
+    fontStyle: "italic",
+    fontFamily: FONTS.display,
+    color: COLORS.primary.p03,
+    marginTop: "6px",
   };
 
   const toggleButtonStyle: React.CSSProperties = {
-    width: "40px",
-    height: "40px",
+    width: "36px",
+    height: "36px",
     background: "transparent",
-    border: "none",
-    borderRadius: "8px",
+    border: `1px solid ${COLORS.primary.p03}`,
+    borderRadius: "2px",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
     cursor: "pointer",
-
-    transition: "background 0.2s",
-    marginLeft: "16px",
+    flexShrink: 0,
+    marginTop: "8px",
   };
 
   const navStyle: React.CSSProperties = {
     flex: 1,
-    padding: "16px 0",
+    padding: "8px 12px",
   };
 
   const navItemStyle: React.CSSProperties = {
     width: "100%",
-    padding: isCollapsed ? "16px" : "16px 24px",
+    padding: isCollapsed ? "14px" : "14px 16px",
     display: "flex",
     alignItems: "center",
     justifyContent: isCollapsed ? "center" : "flex-start",
-    gap: "16px",
-    background: currentPage === "history" ? COLORS.primary.p03 : "transparent",
+    gap: "14px",
+    background:
+      currentPage === "history" ? "rgba(246, 238, 220, 0.08)" : "transparent",
     border: "none",
+    borderLeft:
+      currentPage === "history"
+        ? `3px solid ${COLORS.copper}`
+        : "3px solid transparent",
     cursor: "pointer",
-    fontSize: "18px",
-    fontWeight: 500,
-    color: COLORS.primary.p09,
+    fontSize: "16px",
+    fontWeight: 600,
+    fontFamily: FONTS.display,
+    fontStyle: "italic",
+    color: COLORS.cream,
     textAlign: "left",
     transition: "background 0.2s",
   };
@@ -107,13 +132,24 @@ const Sidebar: React.FC<SidebarProps> = ({
     display: isCollapsed ? "none" : "inline",
   };
 
+  const spineStyle: React.CSSProperties = {
+    display: isCollapsed ? "none" : "block",
+    padding: "20px",
+    fontFamily: FONTS.mono,
+    fontSize: "11px",
+    letterSpacing: "0.14em",
+    textTransform: "uppercase",
+    color: COLORS.primary.p03,
+  };
+
   return (
     <aside style={sidebarStyle}>
       <div style={headerStyle}>
         <div style={logoStyle}>
           <span style={logoIconStyle}>$</span>
           <div style={logoTextStyle}>
-            <div style={logoTitleStyle}>Expense Tracker</div>
+            <div style={logoTitleStyle}>{COPY.appName}</div>
+            <div style={logoTaglineStyle}>{COPY.tagline}</div>
           </div>
         </div>
         <button
@@ -122,11 +158,11 @@ const Sidebar: React.FC<SidebarProps> = ({
           onClick={onToggleCollapse}
         >
           <svg
-            width="24"
-            height="24"
+            width="18"
+            height="18"
             viewBox="0 0 24 24"
             fill="none"
-            stroke="#464343"
+            stroke={COLORS.cream}
             strokeWidth="2"
             style={{
               transform: isCollapsed ? "rotate(180deg)" : "rotate(0deg)",
@@ -144,7 +180,7 @@ const Sidebar: React.FC<SidebarProps> = ({
           onClick={() => onNavigate?.("history")}
           onMouseEnter={(e) => {
             if (currentPage !== "history") {
-              e.currentTarget.style.background = COLORS.primary.p02;
+              e.currentTarget.style.background = "rgba(246, 238, 220, 0.06)";
             }
           }}
           onMouseLeave={(e) => {
@@ -154,21 +190,23 @@ const Sidebar: React.FC<SidebarProps> = ({
           }}
         >
           <svg
-            width="24"
-            height="24"
+            width="22"
+            height="22"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
             strokeWidth="2"
           >
-            <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+            <rect x="3" y="4" width="18" height="18" rx="1" ry="1" />
             <line x1="16" y1="2" x2="16" y2="6" />
             <line x1="8" y1="2" x2="8" y2="6" />
             <line x1="3" y1="10" x2="21" y2="10" />
           </svg>
-          <span style={navTextStyle}>History</span>
+          <span style={navTextStyle}>{COPY.navHistory}</span>
         </button>
       </nav>
+
+      <div style={spineStyle}>Vol. I · Personal ledger</div>
     </aside>
   );
 };
