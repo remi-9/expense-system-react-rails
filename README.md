@@ -1,44 +1,57 @@
-# Expense System
+# Expense Tracker
 
-A full-stack expense tracker with a monthly history view, category breakdown, and a Rails JSON API.
+A full-stack expense tracker for browsing monthly spending, grouping it by category, and recording new expenses.
 
-Users can add, edit, and delete expenses, create categories (with an emoji), and browse spending by month and year.
+The UI is a React + TypeScript app. The API is Rails 7.2. Both run together with Docker Compose.
 
 ## Features
 
-- Monthly expense history with year/month navigation
+- Monthly history with year and month navigation (reflected in the URL)
 - Add, edit, and delete expenses
-- Dynamic categories with a preset emoji picker
-- Category spending breakdown for the selected month
-- Expenses ordered by date (newest first)
-- Future expense dates blocked in both the UI and API
+- Create categories with a preset emoji picker
+- Collapsible category breakdown with totals and transaction counts
+- Paginated expense list, newest dates first
+- Future expense dates blocked in both the UI and the API
+- Collapsible sidebar
 
 ## Tech stack
 
 | Layer | Tools |
 | --- | --- |
 | Frontend | React 18, TypeScript, Vite |
-| Backend | Ruby 3.3, Rails 7.2 (API) |
+| Backend | Ruby 3.3, Rails 7.2 (API-only) |
 | Database | MySQL 8 |
 | Tests | RSpec, RuboCop |
 | Dev environment | Docker Compose |
+
+## Project layout
+
+```
+.
+├── frontend/          React + Vite app
+├── backend/           Rails JSON API
+├── db/init.sql        MySQL bootstrap
+├── docker-compose.yml
+└── README.md
+```
 
 ## Quick start
 
 ### Docker (recommended)
 
 ```bash
-git clone <repo-url>
-cd expense-system-react-rails
+git clone https://github.com/remi-9/likhait-technical-test.git
+cd likhait-technical-test
 docker compose up
 ```
 
-The first start runs migrations and seeds sample data. Seeding can take a few minutes.
+The first start runs migrations and seeds sample expenses from January 2024 through today. Seeding can take a few minutes.
 
 | Service | URL |
 | --- | --- |
 | Frontend | http://localhost:5173 |
 | Backend API | http://localhost:3000/api |
+| Health check | http://localhost:3000/up |
 
 Stop with `Ctrl+C`, or run `docker compose up -d` to start in the background.
 
@@ -63,7 +76,7 @@ npm install
 npm run dev
 ```
 
-The Vite app expects the API at `http://localhost:3000`.
+The Vite app talks to the API at `http://localhost:3000`.
 
 ## Tests
 
