@@ -1,18 +1,13 @@
-FROM node:18-alpine
+FROM node:18-bookworm-slim
 
 WORKDIR /app
 
-# Copy package files
 COPY package*.json ./
+RUN npm install --include=optional \
+ && npm install --no-save @rollup/rollup-linux-x64-gnu
 
-# Install dependencies
-RUN npm install
-
-# Copy the rest of the application
 COPY . .
 
-# Expose port
 EXPOSE 5173
 
-# Start the development server
 CMD ["npm", "run", "dev", "--", "--host"]
